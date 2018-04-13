@@ -1,0 +1,153 @@
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="robots" content="noindex, nofollow">
+	<meta name="googlebot" content="noindex, nofollow">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="https:cdnjs.cloudflare.com/ajax/libs/vue/2.2.1/vue.js"></script>
+	<title></title>
+	<script type="text/javascript">
+	window.onload=function(){
+		var app = new Vue({
+        	el: '#app',
+        	data: {
+          		value: 1,
+          		progress: 0,
+          		questions: [
+				  {
+				  	"checked": true,
+				  	"results": '',
+				    "question": 'Подчинен ли дух материи или он обладает независимыми способностями?',
+				    "answers": [
+				      {"quest": "Bernadine Weiss"},
+				      {"quest": "Shaffer Macias"},
+				      {"quest": "Dorthy Soto"}
+				    ]
+				  },
+				  {
+				  	"checked": true,
+				  	"results": '',
+				    "question": 'Разделен ли мир на дух и материю, а если да, то что такое дух и что такое материя?',
+				    "answers": [
+				      {"quest": "Briggs Mcguire"},
+				      {"quest": "Brittney Arnold"},
+				      {"quest": "Reba Finch"}
+				    ]
+				  },
+				  {
+				  	"checked": true,
+				  	"results": '',
+				    "question": 'Если же существует образ жизни, который является возвышенным, то в чем он состоит и как мы его можем достичь?',
+				    "answers": [
+				      {"quest": "Donovan Keith"},
+				      {"quest": "Celeste Bass"},
+				      {"quest": "Gibson Walton"}
+				    ]
+				  },
+				  {
+				  	"checked": true,
+				  	"results": '',
+				    "question": 'Есть ли жизнь на марсе?',
+				    "answers": [
+				      {"quest": "Erika Holland"},
+				      {"quest": "Bettie Blanchard"},
+				      {"quest": "Milagros Browning"}
+				    ]
+				  },
+
+				  {
+				  	"checked": true,
+				  	"results": '',
+				    "question": 'Существуют ли параллельные миры?',
+				    "answers": [
+				      {"quest": "Myrna Glover"},
+				      {"quest": "Lenore Kemp"},
+				      {"quest": "Charity Medina"}
+				    ]
+				  }
+				]
+        	},
+        	methods: {
+        		calculated: function(){
+	        		this.progress = this.value * (100/this.questions.length);
+	        		this.value+=1
+	        	}
+        	}
+        	
+		})
+	}
+  </script>
+
+  <style type="text/css">
+
+  	#app {
+  		width: 600px;
+  		margin: 30px auto;
+  	}
+
+  	.progress-line {
+  		width: 0;
+  		height: 20px;
+  		display: block;
+  		font-size: 14px;
+  		color: #fff;
+  		font-weight: bold;
+  		text-align: center;
+  		overflow: hidden;
+  		background-color: #ff0000;
+  		transition: width 0.3s ease;
+  	}
+
+  	.progress {
+  		background-color: #f2f2f2;
+  		display: block;
+  		height: 20px;
+  		line-height: 20px;
+  	}
+
+  </style>
+
+</head>
+
+<body>
+<div id="app">
+	<div v-for="(question,index) in questions" v-if="value==(index+1)" :key="index" class="app-item">
+		<h2>{{index+1}}. {{question.question}}</h2>
+		<ul>
+			<li v-for="(quest,rec) in question.answers">
+				<input 
+					type="radio" 
+					:name="'question-' +index" 
+					:id="'question['+index+']['+rec+']'" 
+					v-on:click="question.checked = false" 
+					:value="quest.quest"
+					v-model="question.results"
+					/>
+				<label :for="'question['+index+']['+rec+']'">{{quest.quest}}</label>
+			</li>
+		</ul>
+		<button v-on:click="calculated" v-if="value<questions.length+1" :disabled="question.checked">Следующий экран</button>
+	</div>
+
+	<transition name="fade">
+	    <div v-if="value==questions.length+1">
+			<h2>тест пройден</h2>
+			<h3>гоу заполнять форму</h3>
+			<div>Ваше имя</div>
+			<input type="text" value="" name="" placeholder="" class="" />
+			<div>Ваш email</div>
+			<input type="text" value="" name="" placeholder="" class="" />
+			<div><button>Отправить</button></div>
+	    </div>
+	</transition>
+    <br>
+    <br>
+    <div v-for="question in questions">
+    	<input type="text" :value="question.results" name=""/>
+    </div>
+    <span v-if="value<questions.length+1">Вопросов: {{value}} / {{questions.length}}</span>
+    <br>
+    <span class="progress"><span class="progress-line" :style="'width:'+progress+'%'">{{progress}}%</span></span>
+</div>
+</body>
+</html>
